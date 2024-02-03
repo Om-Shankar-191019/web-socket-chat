@@ -8,7 +8,6 @@ const Messages = () => {
   const { messages, loading } = useGetMessages();
   // useListenMessages();
   const lastMessageRef = useRef();
-  console.log(messages);
 
   useEffect(() => {
     setTimeout(() => {
