@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
+import checkTokenExpire from "../utils/isValidToken.js";
 
 export const signup = async (req, res) => {
   try {
@@ -87,5 +88,18 @@ export const logout = (req, res) => {
   } catch (error) {
     console.log("Error in logout controller", error.message);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const checkInitialToken = (req, res) => {
+  const authToken = req.cookies.jwt; // Assuming your authentication token is named 'jwt'
+
+  // Check if authToken is present and valid (you would need your own logic to validate the token)
+  if (authToken && checkTokenExpire(authToken)) {
+    // Token is valid, send success response
+    res.status(200).json({ isAuthenticated: true });
+  } else {
+    // Token is invalid or not present, send failure response
+    res.status(409).json({ isAuthenticated: false });
   }
 };
